@@ -1,0 +1,1785 @@
+{
+  "name": "AI B2B Lead Prospector",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "AI B2B Lead Prospector",
+        "formDescription": "Wähle Branche, Land und Region. Die Workflow-Ausgabe ist eine recherchierte Kandidatenliste, keine garantierte Verifikation.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Branche",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Maschinenbau & Industriekomponenten"
+                  },
+                  {
+                    "option": "Verpackungstechnik & industrielle Kennzeichnung"
+                  },
+                  {
+                    "option": "Einzelhandel & Großhandel"
+                  },
+                  {
+                    "option": "Telekommunikation & IT-Infrastruktur"
+                  },
+                  {
+                    "option": "Automobilindustrie & Zulieferer"
+                  },
+                  {
+                    "option": "Logistik & Supply Chain"
+                  },
+                  {
+                    "option": "Medizintechnik & Pharma"
+                  },
+                  {
+                    "option": "Elektrotechnik & Elektronik"
+                  },
+                  {
+                    "option": "Software & IT-Dienstleistungen"
+                  },
+                  {
+                    "option": "Energie & Umwelttechnik"
+                  },
+                  {
+                    "option": "Bauwesen & Immobilien"
+                  },
+                  {
+                    "option": "Chemie & Kunststoff"
+                  },
+                  {
+                    "option": "Lebensmittelproduktion"
+                  },
+                  {
+                    "option": "Metallverarbeitung"
+                  },
+                  {
+                    "option": "Finanzdienstleistungen"
+                  },
+                  {
+                    "option": "E-Commerce"
+                  },
+                  {
+                    "option": "Unternehmensberatung & Recht"
+                  },
+                  {
+                    "option": "Tourismus & Hotellerie"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Land",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Deutschland"
+                  },
+                  {
+                    "option": "Österreich"
+                  },
+                  {
+                    "option": "Schweiz"
+                  },
+                  {
+                    "option": "Niederlande"
+                  },
+                  {
+                    "option": "Frankreich"
+                  },
+                  {
+                    "option": "Italien"
+                  },
+                  {
+                    "option": "Spanien"
+                  },
+                  {
+                    "option": "Großbritannien"
+                  },
+                  {
+                    "option": "USA"
+                  },
+                  {
+                    "option": "China"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Anzahl Unternehmen",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "5"
+                  },
+                  {
+                    "option": "10"
+                  },
+                  {
+                    "option": "15"
+                  },
+                  {
+                    "option": "20"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Zusätzlicher Fokus (optional)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "66e90b1c-c7c3-4149-bb78-89507a497888",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg-test-mode",
+              "name": "test_mode",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "cfg-test-recipient",
+              "name": "test_recipient",
+              "type": "string",
+              "value": "test@example.com"
+            },
+            {
+              "id": "cfg-require-review",
+              "name": "require_review",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "cfg-sender",
+              "name": "sender_company",
+              "type": "string",
+              "value": "Example GmbH"
+            },
+            {
+              "id": "cfg-email-impressum",
+              "name": "email_impressum",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "cfg-email-extra",
+              "name": "email_extra_text",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "cfg-telegram-chat",
+              "name": "telegram_chat_id",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "cfg-industry",
+              "name": "industry",
+              "type": "string",
+              "value": "={{ $json['Branche'] }}"
+            },
+            {
+              "id": "cfg-country",
+              "name": "country",
+              "type": "string",
+              "value": "={{ $json['Land'] }}"
+            },
+            {
+              "id": "cfg-count",
+              "name": "company_count",
+              "type": "string",
+              "value": "={{ $json['Anzahl Unternehmen'] }}"
+            },
+            {
+              "id": "cfg-focus",
+              "name": "custom_focus",
+              "type": "string",
+              "value": "={{ $json['Zusätzlicher Fokus (optional)'] || '' }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "c2d2ce9d-58db-4b45-8b34-43c5aa2235f5",
+      "name": "Workflow Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst country = String($input.first().json.country || 'Deutschland').trim();\nconst regions = {\n 'Deutschland':['Alle Bundesländer / Ganzes Land','Baden-Württemberg','Bayern','Berlin','Brandenburg','Bremen','Hamburg','Hessen','Mecklenburg-Vorpommern','Niedersachsen','Nordrhein-Westfalen','Rheinland-Pfalz','Saarland','Sachsen','Sachsen-Anhalt','Schleswig-Holstein','Thüringen'],\n 'Österreich':['Alle Bundesländer / Ganzes Land','Wien','Niederösterreich','Oberösterreich','Steiermark','Tirol','Kärnten','Salzburg','Vorarlberg','Burgenland'],\n 'Schweiz':['Alle Kantone / Ganze Schweiz','Zürich','Bern','Waadt (Vaud)','Aargau','St. Gallen','Genf (Genève)','Luzern','Tessin (Ticino)','Basel-Stadt','Basel-Landschaft','Wallis','Zug','Solothurn','Thurgau'],\n 'Niederlande':['Alle Provinzen / Ganze Niederlande','Noord-Holland','Zuid-Holland','Noord-Brabant','Gelderland','Utrecht','Overijssel','Limburg','Friesland','Groningen','Drenthe','Flevoland','Zeeland'],\n 'Frankreich':['Alle Regionen / Ganzes Land','Île-de-France','Auvergne-Rhône-Alpes','Nouvelle-Aquitaine','Occitanie','Hauts-de-France','Provence-Alpes-Côte d’Azur','Grand Est','Pays de la Loire','Bretagne','Normandie','Bourgogne-Franche-Comté','Centre-Val de Loire'],\n 'Italien':['Alle Regionen / Ganzes Land','Lombardei','Venetien','Emilia-Romagna','Piemont','Toskana','Latium','Kampanien','Sizilien','Apulien','Ligurien','Trentino-Südtirol','Friaul-Julisch Venetien'],\n 'Spanien':['Alle Regionen / Ganzes Land','Madrid','Katalonien','Andalusien','Valencia','Baskenland','Galicien','Kastilien und León','Aragonien','Murcia','Balearische Inseln','Kanarische Inseln'],\n 'Großbritannien':['Alle Regionen / Ganzes Land','England - London','England - South East','England - Midlands','England - North West','England - North East & Yorkshire','Schottland','Wales','Nordirland'],\n 'USA':['All States / Whole USA','California','Texas','New York','Florida','Illinois','Pennsylvania','Ohio','Georgia','North Carolina','Michigan','New Jersey','Virginia','Washington','Massachusetts','Arizona','Indiana','Tennessee','Colorado','Wisconsin','Minnesota'],\n 'China':['All Provinces / Whole China','Guangdong','Shanghai','Beijing','Jiangsu','Zhejiang','Shandong','Sichuan','Hubei','Fujian','Chongqing','Tianjin','Liaoning','Anhui','Henan']\n};\nconst list = regions[country] || ['Alle Regionen / Ganzes Land'];\nreturn [{json:{country,formFieldsJson:[{fieldLabel:'Region',fieldType:'dropdown',requiredField:true,fieldOptions:{values:list.map(x=>({option:x}))}}]}}];\n"
+      },
+      "id": "7b9783c0-934b-4d5d-b697-421a959155b0",
+      "name": "Prepare Region Form",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "defineForm": "json",
+        "jsonOutput": "={{ JSON.stringify($json.formFieldsJson) }}",
+        "options": {}
+      },
+      "id": "941181e2-3e6d-4d15-ba63-3f6650bb7d15",
+      "name": "Select Region (Step 2)",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = String($input.first().json.text || '').replace(/```(?:json)?/gi, '').trim();\nlet data;\ntry {\n  const start = raw.indexOf('['), end = raw.lastIndexOf(']');\n  if (start < 0 || end < start) throw new Error('JSON array not found');\n  data = JSON.parse(raw.slice(start, end + 1));\n} catch (e) {\n  throw new Error('Candidate list could not be parsed. Model response: ' + raw.slice(0, 1200));\n}\nif (!Array.isArray(data)) throw new Error('Candidate response is not an array.');\nconst wanted = Math.max(1, Math.min(20, parseInt($('Workflow Config').first().json.company_count || '5', 10)));\nconst blocked = /(^|\\.)(linkedin|xing|facebook|instagram|twitter|x|youtube|wikipedia|northdata|kompass|europages|wlw|firmenwissen|dnb|google|bing|yelp|gelbeseiten|11880|trustpilot|glassdoor|kununu|crunchbase|zoominfo|handelsregister|unternehmensregister|creditreform|opencorporates|bloomberg|reuters)\\.[a-z.]+$/i;\nconst seen = new Set();\nconst out = [];\nconst skipped = [];\nfor (const c of data) {\n  const rawUrl = String(c.company_url || '').trim();\n  const mm = rawUrl.match(/^(https?):\\/\\/([^\\/?#\\s]+)/i);\n  if (!mm) { skipped.push(rawUrl || '(empty)'); continue; }\n  const host = mm[2].toLowerCase().replace(/:\\d+$/, '');\n  if (blocked.test(host) || !host.includes('.')) { skipped.push(host); continue; }\n  const key = host.replace(/^www\\./, '');\n  if (seen.has(key)) continue;\n  seen.add(key);\n  out.push({\n    company_index: out.length + 1,\n    discovered_name: String(c.company_name || 'Unknown').trim(),\n    company_url: mm[1].toLowerCase() + '://' + host,\n    city: String(c.city || '').trim(),\n    automation_fit_reason: String(c.automation_fit_reason || '').trim()\n  });\n  if (out.length >= Math.min(25, wanted + 5)) break;\n}\nif (!out.length) throw new Error('No valid official website candidates were returned. Skipped: ' + skipped.join(' | '));\nreturn out.map(x => ({ json: { ...x, total_companies: wanted, candidates_total: out.length }, pairedItem: { item: 0 } }));"
+      },
+      "id": "f29f2872-3882-4fc6-8ae8-8215b4dafc07",
+      "name": "Validate & Normalize Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ \"https://r.jina.ai/\" + String($json.company_url || \"\").trim() }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jinaAiApi",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 5000
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 45000
+        }
+      },
+      "id": "2fac9e72-c1f8-4e2b-a47e-6d72e259ef74",
+      "name": "Scrape Homepage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "position": [
+        1968,
+        432
+      ],
+      "credentials": {
+        "jinaAiApi": {
+          "id": "REPLACE_ME",
+          "name": "jinaAiApi (select your own)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst loop = $('Loop Over Items').first().json;\nconst home = String($input.first().json.data || '');\nconst parse = (str) => {\n  const m = String(str || '').trim().match(/^(https?):\\/\\/([^\\/?#\\s]+)([^?#\\s]*)/i);\n  return m ? { origin: m[1].toLowerCase() + '://' + m[2].toLowerCase(), host: m[2].toLowerCase(), path: m[3] || '' } : null;\n};\nconst finalMatch = home.match(/Final URL:\\s*(https?:\\/\\/[^\\s\\n]+)/i);\nconst base = parse(finalMatch ? finalMatch[1] : loop.company_url) || parse(loop.company_url);\nif (!base) return [];\nconst host = base.host.replace(/^www\\./,'');\nconst origin = base.origin;\nconst baseClean = (origin + base.path).replace(/\\/$/,'');\nconst re = /\\[([^\\]]*)\\]\\(([^\\s)]+)\\)/gi;\nconst found = new Map();\nlet m;\nwhile ((m = re.exec(home)) !== null) {\n  const label = String(m[1] || '').toLowerCase();\n  let target; try { target = new URL(m[2], baseClean + '/').href; } catch (e) { continue; }\n  if (!/^https?:/i.test(target)) continue;\n  const u = parse(target);\n  if (!u) continue;\n  const h = u.host.replace(/^www\\./,'');\n  if (!(h === host || h.endsWith('.' + host))) continue;\n  const path = u.path.toLowerCase();\n  if (/\\.(svg|png|jpe?g|gif|webp|pdf|css|js|zip)$/i.test(path)) continue;\n  if (/board|sustainability|compliance|publications|cybersecurity|stories|innovations|career|jobs/.test(path)) continue;\n  let score = 0;\n  const t = label + ' ' + path;\n  if (/impressum|imprint|legal-notice|corporate-information/.test(t)) score = 10;\n  else if (/kontakt|contact|get-in-touch|ansprechpartner/.test(t)) score = 9;\n  else if (/standort|locations|offices|headquarters/.test(t)) score = 8;\n  else if (/about|ueber-uns|über-uns/.test(t)) score = 6;\n  if (!score) continue;\n  const clean = (u.origin + u.path).replace(/\\/$/,'');\n  if (clean === baseClean) continue;\n  found.set(clean,Math.max(score,found.get(clean)||0));\n}\nconst fallbacks = ['/impressum','/imprint','/kontakt','/contact','/legal-notice','/impressum.html','/kontakt.html'];\nfor (const p of fallbacks) {\n  const u = origin + p;\n  if (!found.has(u)) found.set(u,2);\n}\nconst urls = [...found.entries()].sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);\nreturn urls.map((url)=>({json:{url,company_url:loop.company_url},pairedItem:{item:0}}));\n"
+      },
+      "id": "20388679-23af-4f79-a98e-b1580291e561",
+      "name": "Find Contact & Impressum Links",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ \"https://r.jina.ai/\" + String($json.url || \"\").trim() }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jinaAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Remove-Selector",
+              "value": "nav, header"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 5000
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 45000
+        }
+      },
+      "id": "cca9c6fc-b0cc-4272-9e75-5456fef078a7",
+      "name": "Scrape Subpages",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "position": [
+        2400,
+        432
+      ],
+      "credentials": {
+        "jinaAiApi": {
+          "id": "REPLACE_ME",
+          "name": "jinaAiApi (select your own)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const loop = $('Loop Over Items').first().json;\nconst homeFull = String(($('Scrape Homepage').first().json || {}).data || '');\nconst home = homeFull.length > 12000 ? homeFull.slice(0, 7000) + '\\n[...]\\n' + homeFull.slice(-5000) : homeFull;\nconst pages = $input.all();\nlet extra = '', all = homeFull;\nfor (const it of pages) {\n  const txt = String(it.json?.data || '');\n  if (!txt || it.json?.error || txt.length < 150) continue;\n  const h = txt.slice(0, 500).toLowerCase();\n  if (/title:\\s*404|404\\s*-\\s*page not found|seite nicht gefunden|page cannot be found|not found/.test(h)) continue;\n  all += '\\n' + txt;\n  extra += '\\n\\n--- CONTACT / LEGAL SUBPAGE ---\\n' + txt.slice(0, 6000);\n}\nlet host = '';\ntry { host = new URL(loop.company_url).hostname.replace(/^www\\./, '').toLowerCase(); } catch (e) {}\nconst deob = s => s\n  .replace(/%40/g, '@').replace(/&#0*64;|&commat;|\\\\u0040/gi, '@')\n  .replace(/\\s*[\\[\\(\\{]\\s*(?:at|ät)\\s*[\\]\\)\\}]\\s*/gi, '@')\n  .replace(/\\s*[\\[\\(\\{]\\s*(?:dot|punkt)\\s*[\\]\\)\\}]\\s*/gi, '.');\nconst text = deob(all);\nconst re = /[A-Za-z0-9._%+\\-]+@[A-Za-z0-9\\-]+(?:\\.[A-Za-z0-9\\-]+)*\\.[A-Za-z]{2,}/g;\nconst bad = /\\.(png|jpe?g|gif|svg|webp|css|js|woff2?)$|sentry|example\\.|domain\\.|wixpress|yourname|beispiel|mustermann|name@/i;\nconst good = /^(info|kontakt|contact|office|mail|hello|hallo|vertrieb|sales|anfrage|service|zentrale)@/i;\nconst meh = /^(datenschutz|privacy|dpo|abuse|webmaster|presse|press|jobs|karriere|bewerbung|career|hr|noreply|no-reply)@/i;\nconst score = {};\nfor (const m of text.match(re) || []) {\n  const e = m.replace(/[.\\-_]+$/, '').toLowerCase();\n  if (bad.test(e)) continue;\n  const d = e.split('@')[1];\n  let s = 1;\n  if (host && (d === host || d.endsWith('.' + host) || host.endsWith('.' + d))) s += 5;\n  if (good.test(e)) s += 3;\n  if (meh.test(e)) s -= 3;\n  score[e] = Math.max(score[e] || -99, s);\n}\nconst candidate_emails = Object.entries(score).sort((a, b) => b[1] - a[1]).map(x => x[0]).slice(0, 5);\nconst email_obfuscated = /\\[email[\\s\\u00a0]*protected\\]/i.test(all);\nconst phones = [];\nconst pr = /(?:Tel(?:efon)?\\.?|Phone|Fon|Telefon)\\s*[:.]?\\s*(\\+?\\d[\\d\\s()\\/\\-.]{6,22}\\d)/gi;\nlet pm;\nwhile ((pm = pr.exec(all)) !== null) { const p = pm[1].trim(); if (!phones.includes(p)) phones.push(p); if (phones.length >= 3) break; }\nlet contact_urls = [];\ntry { contact_urls = $('Find Contact & Impressum Links').all().map(i => i.json.url); } catch (e) {}\nreturn [{ json: {\n  company_index: loop.company_index, total_companies: loop.total_companies,\n  discovered_name: loop.discovered_name, company_url: loop.company_url,\n  automation_fit_reason: loop.automation_fit_reason,\n  scrape_status: homeFull ? 'homepage_fetched' : 'homepage_empty_or_failed',\n  candidate_emails, candidate_phones: phones, email_obfuscated, contact_urls,\n  combined_content: ('--- HOMEPAGE ---\\n' + home + extra).slice(0, 36000)\n}, pairedItem: { item: 0 } }];\n"
+      },
+      "id": "344e5241-279f-4cba-9bbe-d1963d6031da",
+      "name": "Combine Company Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2624,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a careful B2B company analyst and B2B email writer working for Example GmbH. Write ALL email text (subjects and bodies) in {{ ({'Deutschland':'German','Österreich':'German','Schweiz':'German (Swiss business style, use ss instead of ß)','Niederlande':'Dutch','Frankreich':'French','Italien':'Italian','Spanien':'Spanish','Großbritannien':'British English','USA':'American English','China':'Simplified Chinese'})[$('Workflow Config').first().json.country] || 'German' }}, the official business language of the target country ({{ $('Workflow Config').first().json.country }}). Keep the JSON keys in English.\nCandidate company: {{ $json.discovered_name }}\nOfficial website candidate: {{ $json.company_url }}\nCandidate fit hypothesis (unverified): {{ $json.automation_fit_reason }}\nScrape status: {{ $json.scrape_status }}\nWebsite content:\n{{ $json.combined_content }}\n\nReturn ONE valid JSON object only, no Markdown.\nRules:\n- Use only facts supported by the supplied website content. If missing, use \"Not found\".\n- Do not invent an email, phone, address, employee name, company facts, customer references, case studies, percentages, ROI, or measured savings.\n- If the content does not establish a fact, state \"Not found\" or mark the opportunity as \"Hypothesis - validate with company\".\n- Use the candidate name only as a hint; prefer the official legal/company name from source content.\n- Candidate emails extracted from the site (deterministic): {{ ($json.candidate_emails || []).join(', ') || 'none' }}. The email field must be one of these, otherwise \"Not found\".\n- Give three qualitative automation opportunities. Do not add quantified ROI unless the website content itself contains a relevant, explicit metric.\n- Draft two email versions in the language stated above. Do not claim prior results or customer projects. If no verified contact email exists, still draft but do not send automatically.\n- Keep email respectful and specific, no fake personalization, no placeholder such as [Ihr Name].\n- NEVER address a person by name and NEVER write a salutation in any language (no 'Dear ...', 'Sehr geehrte ...', 'Hello', 'Bonjour' and similar): a generic salutation in the target language is added automatically. Start each body directly with its first sentence.\n- Write each body as 2-3 short paragraphs separated by a blank line (use \\n\\n inside the JSON string).\n- Do NOT write any closing greeting or signature (no 'Kind regards', 'Mit freundlichen Grüßen' or similar, no company name at the end): it is appended automatically. End each body with its closing question.\n- Before answering 'Not found' for email, phone or address, re-read ALL supplied content (homepage and every subpage) for contact data.\nJSON schema:\n{\n \"company_name\":\"...\",\n \"phone\":\"...\",\n \"email\":\"...\",\n \"address\":\"...\",\n \"core_services\":\"...\",\n \"clean_summary\":\"...\",\n \"target_personas\":[\"...\"],\n \"automation_opportunities\":\"1. ...\\\\n2. ...\\\\n3. ...\",\n \"subject_A\":\"...\",\n \"body_A\":\"...\",\n \"subject_B\":\"...\",\n \"body_B\":\"...\",\n \"evidence_note\":\"Short note about source limitations\"\n}"
+      },
+      "id": "25f7f5aa-bf64-4f82-b607-86a884f08466",
+      "name": "Agent 1: Extract, Strategize & Draft",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "position": [
+        2816,
+        432
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "id": "712e58ef-f10a-4b37-a67e-61b382fc45e3",
+      "name": "Gemini Model (Extractor)1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2704,
+        640
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "REPLACE_ME",
+          "name": "googlePalmApi (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json || {};\nconst loop = $('Loop Over Items').first().json;\nconst comb = $('Combine Company Pages').first().json || {};\nconst cands = (comb.candidate_emails || []).map(x => String(x).toLowerCase());\nconst raw = String(input.text || '');\nlet obj = null;\ntry {\n  const cleaned = raw.replace(/```(?:json)?/gi, '').trim();\n  const a = cleaned.indexOf('{'), b = cleaned.lastIndexOf('}');\n  if (a >= 0 && b > a) obj = JSON.parse(cleaned.slice(a, b + 1));\n} catch {}\nif (!obj) {\n  obj = {\n    company_name: loop.discovered_name || 'Unknown', phone: 'Not found', email: 'Not found', address: 'Not found',\n    core_services: 'Not verified', clean_summary: 'AI analysis failed; manual review required', target_personas: [],\n    automation_opportunities: 'Analysis unavailable. Review website manually.',\n    subject_A: 'Automatisierungspotenziale bei ' + (loop.discovered_name || 'Ihrem Unternehmen'),\n    body_A: 'Sehr geehrte Damen und Herren,\\n\\nwir haben Ihre Website betrachtet und möchten unverbindlich prüfen, ob sich einzelne wiederkehrende Abläufe in Ihrem Unternehmen sinnvoll automatisieren lassen.\\n\\nWäre ein kurzer Austausch dazu für Sie interessant?\\n\\nViele Grüße\\nIhr Team von Example GmbH',\n    subject_B: 'Kurze Frage zur Automatisierung',\n    body_B: 'Sehr geehrte Damen und Herren,\\n\\nwäre ein kurzer Austausch zu möglichen Automatisierungen Ihrer Abläufe interessant?\\n\\nViele Grüße\\nIhr Team von Example GmbH',\n    evidence_note: 'Model output missing or invalid; fallback draft created.'\n  };\n}\nconst stripOpen = s => { let t = String(s || '').replace(/\\r\\n?/g, '\\n').trim(); const mo = t.match(/^(?:Sehr geehrte|Guten Tag|Hallo|Liebe)[^\\n,]*[,!]?\\s*/i); if (mo) { t = t.slice(mo[0].length); t = t.charAt(0).toUpperCase() + t.slice(1); } return t; };\nconst stripClose = s => stripOpen(String(s || '')).replace(/\\n+\\s*(?:Mit freundlichen|Mit besten|Beste|Viele|Freundliche|Herzliche|Schöne)\\s+Gr(?:ü|ue)(?:ß|ss)e?n?[\\s\\S]*$/i, '').replace(/\\[Ihr Name\\]/gi, '').trim();\nconst isMail = v => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(String(v || '').trim());\nlet email = 'Not found';\nconst llm = String(obj.email || '').trim().toLowerCase();\nif (isMail(llm) && cands.includes(llm)) email = llm;\nelse if (cands.length) email = cands[0];\nconst personas = Array.isArray(obj.target_personas) ? obj.target_personas.join(', ') : String(obj.target_personas || '');\nlet note = String(obj.evidence_note || '');\nif (loop.site_note) note += ' | ' + loop.site_note;\nif (comb.email_obfuscated) note += ' | Email is probably obfuscated (Cloudflare) - check Impressum manually.';\nif ((comb.contact_urls || []).length) note += ' | Checked: ' + comb.contact_urls.join(', ');\nreturn [{ json: {\n  company_index: loop.company_index, total_companies: loop.total_companies,\n  discovered_name: loop.discovered_name, company_url: loop.company_url,\n  company_name: String(obj.company_name || loop.discovered_name || 'Unknown'),\n  phone: String(obj.phone && obj.phone !== 'Not found' ? obj.phone : ((comb.candidate_phones || [])[0] || 'Not found')),\n  email, email_candidates: cands.join(', '),\n  address: String(obj.address || 'Not found'), core_services: String(obj.core_services || 'Not found'),\n  summary: String(obj.clean_summary || 'Not found'), target_personas: personas,\n  automation_opportunities: String(obj.automation_opportunities || 'Not available').replace(/\\\\n/g, '\\n'),\n  subject_A: String(obj.subject_A || 'Automatisierungspotenziale'), body_A: stripClose(obj.body_A),\n  subject_B: String(obj.subject_B || 'Kurze Frage zur Automatisierung'), body_B: stripClose(obj.body_B),\n  evidence_note: note.trim(),\n  ai_parse_status: raw ? (input.error ? 'model_error_fallback' : 'parsed_or_fallback') : 'empty_model_output'\n}, pairedItem: { item: 0 } }];"
+      },
+      "id": "70936912-c86e-4677-b65b-a1cf0deae5b9",
+      "name": "Validate AI Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3088,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "needs-review",
+              "leftValue": "={{ $('Workflow Config').first().json.require_review === true || $json.email === 'Not found' }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3651d87a-c732-4561-852f-9659853683a6",
+      "name": "Needs Review?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3392,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "resume": "form",
+        "formTitle": "=Lead-Prüfung — {{ $('Validate AI Output').first().json.company_index }} / {{ $('Validate AI Output').first().json.total_companies }}",
+        "formDescription": "=Website: {{ $('Validate AI Output').first().json.company_url }}\nE-Mail-Kandidaten auf der Website: {{ $('Validate AI Output').first().json.email_candidates || 'keine' }}\nFehlende Daten: {{ [['E-Mail', $('Validate AI Output').first().json.email], ['Telefon', $('Validate AI Output').first().json.phone], ['Adresse', $('Validate AI Output').first().json.address]].filter(x => !x[1] || x[1] === 'Not found').map(x => x[0]).join(', ') || 'nichts' }}\n\nLeistungen: {{ $('Validate AI Output').first().json.core_services }}\nZielpersonen: {{ $('Validate AI Output').first().json.target_personas }}\n\nAutomatisierungspotenziale:\n{{ $('Validate AI Output').first().json.automation_opportunities }}\n\nQuellenhinweis: {{ $('Validate AI Output').first().json.evidence_note }}\n\nAlle Felder sind vorausgefüllt – ändere nur, was nötig ist. Wähle Version A oder B. Anrede, Signatur und Zusatztext werden automatisch ergänzt. Prüfe vor dem Versand die E-Mail-Adresse und die Rechtsgrundlage.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Aktion",
+              "fieldType": "dropdown",
+              "defaultValue": "Nur in Supabase speichern",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Nur in Supabase speichern"
+                  },
+                  {
+                    "option": "Freigeben & E-Mail senden"
+                  },
+                  {
+                    "option": "Überspringen / Abbrechen"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "E-Mail-Version",
+              "fieldType": "dropdown",
+              "defaultValue": "Version A",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Version A"
+                  },
+                  {
+                    "option": "Version B"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Firmenname",
+              "defaultValue": "={{ $('Validate AI Output').first().json.company_name }}"
+            },
+            {
+              "fieldLabel": "E-Mail",
+              "defaultValue": "={{ $('Validate AI Output').first().json.email === 'Not found' ? '' : $('Validate AI Output').first().json.email }}"
+            },
+            {
+              "fieldLabel": "Telefon",
+              "defaultValue": "={{ $('Validate AI Output').first().json.phone === 'Not found' ? '' : $('Validate AI Output').first().json.phone }}"
+            },
+            {
+              "fieldLabel": "Adresse",
+              "defaultValue": "={{ $('Validate AI Output').first().json.address === 'Not found' ? '' : $('Validate AI Output').first().json.address }}"
+            },
+            {
+              "fieldLabel": "Zusammenfassung",
+              "fieldType": "textarea",
+              "defaultValue": "={{ $('Validate AI Output').first().json.summary }}"
+            },
+            {
+              "fieldLabel": "Betreff A",
+              "defaultValue": "={{ $('Validate AI Output').first().json.subject_A }}"
+            },
+            {
+              "fieldLabel": "Text A",
+              "fieldType": "textarea",
+              "defaultValue": "={{ $('Validate AI Output').first().json.body_A }}"
+            },
+            {
+              "fieldLabel": "Betreff B",
+              "defaultValue": "={{ $('Validate AI Output').first().json.subject_B }}"
+            },
+            {
+              "fieldLabel": "Text B",
+              "fieldType": "textarea",
+              "defaultValue": "={{ $('Validate AI Output').first().json.body_B }}"
+            },
+            {
+              "fieldLabel": "Zusatztext",
+              "fieldType": "textarea",
+              "defaultValue": "={{ $('Workflow Config').first().json.email_extra_text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d0167a6-d2a4-4cb3-8db9-fa8ac836e8fe",
+      "name": "Review & Edit Lead (n8n Form)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3264,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json || {};\nconst form = response.data && typeof response.data === 'object' ? response.data : response;\nconst original = $('Validate AI Output').first().json;\nconst cfg = $('Workflow Config').first().json || {};\nconst g = (...keys) => { for (const k of keys) { if (form[k] !== undefined) return form[k]; } return undefined; };\nconst rawAction = g('Aktion', 'Action');\nconst hasForm = rawAction !== undefined;\nconst pick = (edited, fallback) => {\n  const v = edited === undefined || edited === null ? '' : String(edited).trim();\n  return v ? v : fallback;\n};\nconst stripOpen = s => { let t = String(s || '').replace(/\\r\\n?/g, '\\n').trim(); const mo = t.match(/^(?:(?:Sehr geehrte[rn]?|Guten Tag|Hallo|Liebe[rn]?|Dear|Hello|Hi|Bonjour|Madame|Monsieur|Estimad[oa]s?|Gentil[ei]|Beste|Geachte)\\b|尊敬的)[^\\n,:：]*[,:：!]?\\s*/i); if (mo) { t = t.slice(mo[0].length); t = t.charAt(0).toUpperCase() + t.slice(1); } return t; };\nconst strip = s => stripOpen(s).replace(/\\n+\\s*(?:Mit freundlichen|Mit besten|Beste Gr|Viele Gr|Freundliche Gr|Herzliche Gr|Schöne Gr|Kind regards|Best regards|Sincerely|Cordialement|Bien cordialement|Cordiali saluti|Un cordial saludo|Atentamente|Met vriendelijke groet|此致)[\\s\\S]*$/i, '').replace(/\\[Ihr Name\\]/gi, '').trim();\nconst DE = { s: 'Sehr geehrte Damen und Herren,', c: 'Mit freundlichen Grüßen', o: 'Sollten Sie keine weiteren Nachrichten von uns wünschen, antworten Sie bitte kurz mit „Abmelden“. Wir nehmen Sie dann umgehend aus unserem Verteiler.' };\nconst EN = 'If you do not wish to receive further messages from us, simply reply with “Unsubscribe” and we will remove you from our list immediately.';\nconst L = {\n  'Deutschland': DE,\n  'Österreich': DE,\n  'Schweiz': { s: 'Sehr geehrte Damen und Herren', c: 'Freundliche Grüsse', o: 'Sollten Sie keine weiteren Nachrichten von uns wünschen, antworten Sie bitte kurz mit „Abmelden“. Wir nehmen Sie dann umgehend aus unserem Verteiler.' },\n  'Niederlande': { s: 'Geachte heer/mevrouw,', c: 'Met vriendelijke groet,', o: 'Wilt u geen verdere berichten van ons ontvangen? Antwoord dan kort met “Afmelden”; wij verwijderen u dan direct uit onze lijst.' },\n  'Frankreich': { s: 'Madame, Monsieur,', c: 'Cordialement,', o: 'Si vous ne souhaitez plus recevoir de messages de notre part, répondez simplement « Désinscription » : nous vous retirerons aussitôt de notre liste.' },\n  'Italien': { s: 'Gentili Signore e Signori,', c: 'Cordiali saluti,', o: 'Se non desidera ricevere ulteriori messaggi da parte nostra, risponda semplicemente con «Annulla iscrizione»: la rimuoveremo subito dal nostro elenco.' },\n  'Spanien': { s: 'Estimados señores:', c: 'Un cordial saludo,', o: 'Si no desea recibir más mensajes nuestros, responda simplemente con «Baja»; le eliminaremos de inmediato de nuestra lista.' },\n  'Großbritannien': { s: 'Dear Sir or Madam,', c: 'Kind regards,', o: EN },\n  'USA': { s: 'Dear Sir or Madam,', c: 'Best regards,', o: EN },\n  'China': { s: '尊敬的负责人：', c: '此致敬礼', o: '如您不希望再收到我们的邮件，请回复“退订”，我们将立即把您从名单中删除。' }\n};\nconst T = L[String(cfg.country || 'Deutschland').trim()] || DE;\nconst email = pick(g('E-Mail', 'email'), original.email);\nconst emailValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) && email !== 'Not found';\nconst version = /B\\s*$/.test(String(g('E-Mail-Version', 'Email Version') || '').trim().toUpperCase()) ? 'B' : 'A';\nconst subjectA = pick(g('Betreff A', 'Subject A'), original.subject_A);\nconst subjectB = pick(g('Betreff B', 'Subject B'), original.subject_B);\nconst bodyA = strip(pick(g('Text A', 'Body A'), original.body_A));\nconst bodyB = strip(pick(g('Text B', 'Body B'), original.body_B));\nconst subject = version === 'B' ? subjectB : subjectA;\nconst body = version === 'B' ? bodyB : bodyA;\nconst extraRaw = g('Zusatztext', 'Extra Text');\nconst extra = hasForm && extraRaw !== undefined ? String(extraRaw || '').trim() : String(cfg.email_extra_text || '').trim();\nconst company = String(cfg.sender_company || 'Example GmbH').trim();\nconst impressum = String(cfg.email_impressum || '').trim();\nconst signature = T.c + '\\n\\n' + company;\nconst finalBody = [T.s, body, extra, signature, T.o, impressum].filter(Boolean).join('\\n\\n');\nlet action = 'Skip / Cancel';\nif (!hasForm) action = 'Save to Supabase Only';\nelse if (/senden|send/i.test(String(rawAction))) action = 'Approve & Send Email';\nelse if (/speichern|save/i.test(String(rawAction))) action = 'Save to Supabase Only';\nreturn [{json:{\n ...original,\n action,\n company_name: pick(g('Firmenname', 'company_name'), original.company_name),\n email,\n email_valid: emailValid,\n phone: pick(g('Telefon', 'phone'), original.phone),\n address: pick(g('Adresse', 'address'), original.address),\n summary: pick(g('Zusammenfassung', 'summary'), original.summary),\n email_version: version,\n subject_a: subjectA, subject_b: subjectB, body_a: bodyA, body_b: bodyB,\n subject,\n email_body: body,\n extra_text: extra,\n final_body: finalBody\n},pairedItem:{item:0}}];\n"
+      },
+      "id": "a6cd2229-833c-4da4-ae0e-81a20cda0a53",
+      "name": "Apply Review Edits",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3488,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "skip-check",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "Skip / Cancel",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "18288b8e-0a78-4f2c-9fd1-247a6ea23807",
+      "name": "Is Skip?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3696,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "ada23451-cd9c-4e8b-bb16-82f09c52dec2",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1744,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "leads",
+          "mode": "list",
+          "cachedResultName": "leads"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "company_url",
+              "value": "={{ $json.company_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "826c881c-c6b5-44f9-8445-c1c5c0a4a392",
+      "name": "Check Existing Lead",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "alwaysOutputData": true,
+      "position": [
+        4288,
+        432
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const x = $('Apply Review Edits').first().json;\nconst ex = $input.first().json || {};\nconst nn = (v) => {\n  const s = (v === undefined || v === null) ? '' : String(v).trim();\n  return (!s || /^(not found|not verified|not available|n\\/a|unknown)$/i.test(s)) ? null : s;\n};\nreturn [{json:{\n  company_url:x.company_url,\n  company_name:nn(x.company_name),\n  summary:nn(x.summary),\n  automation_opportunities:nn(x.automation_opportunities),\n  core_services:nn(x.core_services),\n  target_personas:nn(x.target_personas),\n  phone:nn(x.phone),\n  address:nn(x.address),\n  email:x.email_valid ? x.email : null,\n  email_a:nn(x.body_a),\n  email_b:nn(x.body_b),\n  generated_email:nn(x.final_body),\n  email_version:x.email_version || null,\n  email_subject:nn(x.subject),\n  evidence_note:nn(x.evidence_note),\n  status: ex.status === 'sent' ? 'sent' : 'saved',\n  updated_at:new Date().toISOString()\n},pairedItem:{item:0}}];"
+      },
+      "id": "9bc2da5e-b921-49a4-96a8-5426fb22473e",
+      "name": "Prepare Supabase Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3888,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "leads",
+          "mode": "list",
+          "cachedResultName": "leads"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": [
+            "company_url"
+          ]
+        },
+        "options": {
+          "replaceEmptyStrings": true
+        }
+      },
+      "id": "7b9256b5-2b2a-4616-b5fc-e79775d581f2",
+      "name": "Postgres Upsert (company_url unique)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        4032,
+        176
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "approved",
+              "leftValue": "={{ $('Apply Review Edits').first().json.action }}",
+              "rightValue": "Approve & Send Email",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "valid-email",
+              "leftValue": "={{ $('Apply Review Edits').first().json.email_valid }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "not-sent-yet",
+              "leftValue": "={{ $('Check Existing Lead').first().json.status !== 'sent' }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e42c6be6-1782-43fb-8e11-567b1badc98f",
+      "name": "Can Send Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4144,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "sender@example.com",
+        "toEmail": "={{ $('Workflow Config').first().json.test_mode ? $('Workflow Config').first().json.test_recipient : $('Apply Review Edits').first().json.email }}",
+        "subject": "={{ $('Workflow Config').first().json.test_mode ? '[TEST] ' : '' }}{{ $('Apply Review Edits').first().json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $('Workflow Config').first().json.test_mode ? 'TEST-MODUS - echter Empfaenger waere: ' + $('Apply Review Edits').first().json.email + ' (' + $('Apply Review Edits').first().json.company_name + ', ' + $('Apply Review Edits').first().json.company_url + ')\\n\\n-----\\n\\n' : '' }}{{ $('Apply Review Edits').first().json.final_body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "051b1636-a81d-4475-8061-48b68f677d4c",
+      "name": "Send Email (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "position": [
+        4368,
+        240
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_ME",
+          "name": "smtp (select your own)"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE public.leads\nSET status  = CASE WHEN $3::boolean THEN status ELSE 'sent' END,\n    sent_at = CASE WHEN $3::boolean THEN sent_at ELSE now() END,\n    send_to = CASE WHEN $3::boolean THEN send_to ELSE $2 END,\n    updated_at = now()\nWHERE company_url = $1 RETURNING company_url",
+        "options": {
+          "queryReplacement": "=={{ [ $('Apply Review Edits').first().json.company_url, ($('Send Email (SMTP)').first().json.accepted || [''])[0], $('Workflow Config').first().json.test_mode ] }}"
+        }
+      },
+      "id": "0bed5a99-f205-4317-b740-6684e3a2ee30",
+      "name": "Mark Lead as Sent",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        5408,
+        400
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const f = $('Workflow Config').first().json;\nconst region = $('Select Region (Step 2)').first().json.Region || 'Alle';\nconst wanted = Math.max(1, Math.min(20, parseInt(f.company_count || '5', 10)));\nconst ask = Math.min(25, wanted + 5);\nconst focus = String(f.custom_focus || '').trim() || 'None';\nconst system = 'You are a precise B2B market researcher. If you have a web search tool, use it. Respond with ONLY a valid JSON array. No markdown, no explanations, no reasoning text before or after the array.';\nconst prompt = `Find REAL, currently existing B2B companies (use web search if you have it).\nCriteria:\n- Industry: ${f.industry}\n- Country: ${f.country}\n- Region: ${region}\n- Additional focus: ${focus}\n\nRules:\n- Return ${ask} different companies. Search with several queries (German and English) before answering.\n- Prefer mid-sized companies / Mittelstand (about 20-500 employees) that publish an Impressum or contact page with a direct email. Avoid DAX / Fortune-500 corporations and subsidiaries of them.\n- The company must really be headquartered or have a site in the requested country and region (if a specific region is given).\n- company_url must be the company's OWN official website homepage (https://domain.tld) that you saw in search results. Never use directories or profiles (LinkedIn, Xing, Facebook, Wikipedia, NorthData, Kompass, Europages, wlw, Firmenwissen, Google Maps...).\n- Do not invent companies or domains. If unsure, leave the company out.\n- automation_fit_reason: one qualitative sentence (hypothesis, no numbers, no ROI).\nReturn ONLY a JSON array, no Markdown:\n[{\"company_name\":\"...\",\"company_url\":\"https://...\",\"city\":\"...\",\"automation_fit_reason\":\"...\"}]`;\nreturn [{ json: {\n  messages: [\n    { role: 'system', content: system },\n    { role: 'user', content: prompt }\n  ],\n  prompt,\n  wanted,\n  ask\n} }];\n"
+      },
+      "id": "94ca8783-db32-4c46-80e9-0e686dbbb3cf",
+      "name": "Build Search Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const provider = 'openrouter';\nconst r = $input.first().json || {};\nif (r.error) throw new Error(provider + ' API error: ' + (r.error.message || JSON.stringify(r.error)).slice(0, 500));\nconst choice = (r.choices || [])[0] || {};\nconst msg = choice.message || {};\nconst text = String(msg.content || '').replace(/<think>[\\s\\S]*?<\\/think>/gi, '').replace(/```(?:json)?/gi, '').trim();\nif (!text) throw new Error(provider + ' returned no text. finish_reason=' + (choice.finish_reason || 'unknown'));\nconst ann = msg.annotations || [];\nreturn [{ json: { text, provider, model: r.model || '', search_queries: [], grounded: ann.some(a => a.type === 'url_citation') } }];\n"
+      },
+      "id": "302b8837-efb6-46fa-ac54-8416423ce6a1",
+      "name": "Parse Search Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        1008
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://OLLAMA_HOST:11434/v1/chat/completions",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'qwen2.5:32b', messages: $('Build Search Prompt').first().json.messages, temperature: 0.2, max_tokens: 3000, stream: false }) }}",
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "72b00d42-992a-4dc4-bad1-338c608fcc9a",
+      "name": "Agent 0a: Ollama (OpenAI API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1248,
+        560
+      ],
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const provider = 'ollama';\nconst r = $input.first().json || {};\nif (r.error) throw new Error(provider + ' API error: ' + (r.error.message || JSON.stringify(r.error)).slice(0, 500));\nconst choice = (r.choices || [])[0] || {};\nconst msg = choice.message || {};\nconst text = String(msg.content || '').replace(/<think>[\\s\\S]*?<\\/think>/gi, '').replace(/```(?:json)?/gi, '').trim();\nif (!text) throw new Error(provider + ' returned no text. finish_reason=' + (choice.finish_reason || 'unknown'));\nconst s = text.indexOf('['), e = text.lastIndexOf(']');\nlet arr;\ntry { arr = JSON.parse(text.slice(s, e + 1)); } catch (err) { throw new Error(provider + ' returned invalid JSON: ' + text.slice(0, 300)); }\nif (!Array.isArray(arr) || !arr.some(c => /^https?:\\/\\/[^\\s]+\\.[^\\s]+/i.test(String((c || {}).company_url || '')))) throw new Error(provider + ' returned no valid company_url entries');\nconst ann = msg.annotations || [];\nreturn [{ json: { text, provider, model: r.model || '', search_queries: [], grounded: ann.some(a => a.type === 'url_citation') || (msg.executed_tools || []).length > 0 } }];\n"
+      },
+      "id": "bdd2708c-278b-48bc-b6bd-f7c03fb38e7a",
+      "name": "Parse Ollama Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        560
+      ],
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'openai/gpt-oss-120b', messages: $('Build Search Prompt').first().json.messages, temperature: 0.2, max_completion_tokens: 4000, reasoning_effort: 'low', tools: [{ type: 'browser_search' }] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "21f1d917-e189-4534-ad0e-dc827c173109",
+      "name": "Agent 0: Groq (Web Search)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "position": [
+        1248,
+        784
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "REPLACE_ME",
+          "name": "groqApi (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const provider = 'groq';\nconst r = $input.first().json || {};\nif (r.error) throw new Error(provider + ' API error: ' + (r.error.message || JSON.stringify(r.error)).slice(0, 500));\nconst choice = (r.choices || [])[0] || {};\nconst msg = choice.message || {};\nconst text = String(msg.content || '').replace(/<think>[\\s\\S]*?<\\/think>/gi, '').replace(/```(?:json)?/gi, '').trim();\nif (!text) throw new Error(provider + ' returned no text. finish_reason=' + (choice.finish_reason || 'unknown'));\nconst s = text.indexOf('['), e = text.lastIndexOf(']');\nlet arr;\ntry { arr = JSON.parse(text.slice(s, e + 1)); } catch (err) { throw new Error(provider + ' returned invalid JSON: ' + text.slice(0, 300)); }\nif (!Array.isArray(arr) || !arr.some(c => /^https?:\\/\\/[^\\s]+\\.[^\\s]+/i.test(String((c || {}).company_url || '')))) throw new Error(provider + ' returned no valid company_url entries');\nconst ann = msg.annotations || [];\nreturn [{ json: { text, provider, model: r.model || '', search_queries: [], grounded: ann.some(a => a.type === 'url_citation') || (msg.executed_tools || []).length > 0 } }];\n"
+      },
+      "id": "18d180c6-9428-4ef0-a9a2-17e19eb72899",
+      "name": "Parse Groq Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        784
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'openai/gpt-4o-mini:online', messages: $('Build Search Prompt').first().json.messages, temperature: 0.2, max_tokens: 3000 }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "1628836c-de95-4a53-98bd-743839e6a33f",
+      "name": "Agent 0c: OpenRouter :online (OpenAI API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "position": [
+        1248,
+        1008
+      ],
+      "credentials": {
+        "openRouterApi": {
+          "id": "REPLACE_ME",
+          "name": "openRouterApi (select your own)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cand = $('Filter Known Candidates').item.json;\nconst r = $input.item.json || {};\nconst txt = String(r.data || '');\nconst flat = txt.replace(/\\s+/g, ' ').trim();\nconst head = txt.slice(0, 1500);\nlet reason = '';\nif (r.error) reason = 'Homepage request failed: ' + String((r.error && r.error.message) || r.error).slice(0, 200);\nelse if (!flat) reason = 'Homepage returned no content';\nelse if (/Target URL returned error\\s*[45]\\d\\d/i.test(head)) reason = 'Homepage returned an HTTP error: ' + (head.match(/Target URL returned error[^\\n]*/i) || [''])[0];\nelse if (flat.length < 300) reason = 'Homepage content too short (' + flat.length + ' chars)';\nelse if (/domain\\s+(?:is\\s+)?(?:for sale|zu verkaufen|parked)|diese domain (?:steht|ist)|buy this domain|domain kaufen|domain parking/i.test(flat.slice(0, 4000))) reason = 'Looks like a parked or for-sale domain';\nreturn { json: { ...cand, site_ok: !reason, site_note: reason ? 'Website skipped: ' + reason : '', homepage_excerpt: flat.slice(0, 3500) } };\n"
+      },
+      "id": "f00e6f7b-3cff-43e4-8984-8c42a2794a11",
+      "name": "Check Website Exists",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.site_ok ? { model: 'llama-3.3-70b-versatile', temperature: 0, max_completion_tokens: 400, response_format: { type: 'json_object' }, messages: [ { role: 'system', content: 'You verify company websites for a B2B lead list. Answer with ONLY one JSON object, no markdown.' }, { role: 'user', content: 'Requested industry: ' + $('Workflow Config').first().json.industry + '\\nCountry: ' + $('Workflow Config').first().json.country + '\\nRegion: ' + ($('Select Region (Step 2)').first().json.Region || 'any') + '\\nWebsite: ' + $json.company_url + '\\n\\nHomepage text (truncated):\\n' + $json.homepage_excerpt + '\\n\\nAnswer these questions:\\n1) real_company: is this a real, active company website (not parked, not a directory, portal or marketplace)?\\n2) industry_match: does the company actually operate in the requested industry (close sub-sectors count)?\\n3) region_conflict: does the page clearly place the company outside the requested country or region?\\nReturn exactly: {\"real_company\":true,\"industry_match\":true,\"region_conflict\":false,\"actual_business\":\"max 12 words\",\"reason\":\"one short sentence\"}' } ] } : { model: 'llama-3.3-70b-versatile', max_completion_tokens: 5, messages: [ { role: 'user', content: 'Reply with the word OK.' } ] }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "b292b855-3cec-42de-b88d-e0cd72ee7d39",
+      "name": "AI Industry Check (Groq)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "position": [
+        1968,
+        -208
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "REPLACE_ME",
+          "name": "groqApi (select your own)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const cand = $('Check Website Exists').item.json;\nconst out = { ...cand };\ndelete out.homepage_excerpt;\nif (!cand.site_ok) return { json: out };\nconst r = $input.item.json || {};\nconst content = String((((r.choices || [])[0] || {}).message || {}).content || '');\nlet v = null;\ntry { const a = content.indexOf('{'), b = content.lastIndexOf('}'); if (a >= 0 && b > a) v = JSON.parse(content.slice(a, b + 1)); } catch (e) {}\nlet ok = true, note = '';\nif (!v) note = 'Industry check unavailable (no AI answer) - verify the company manually.';\nelse if (v.real_company === false) { ok = false; note = 'Website skipped: not a real company site - ' + (v.reason || ''); }\nelse if (v.industry_match === false) { ok = false; note = 'Website skipped: industry mismatch (' + (v.actual_business || '?') + ') - ' + (v.reason || ''); }\nelse { note = 'Industry check OK: ' + (v.actual_business || ''); if (v.region_conflict) note += ' | WARNING: page suggests a different country/region.'; }\nout.site_ok = ok;\nout.site_note = note;\nreturn { json: out };\n"
+      },
+      "id": "b256da1c-bd31-4f69-94d3-49a31140661a",
+      "name": "Evaluate Industry Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2192,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ \"https://r.jina.ai/\" + String($json.company_url || \"\").trim() }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "jinaAiApi",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 45000
+        }
+      },
+      "id": "f3a552be-180f-4917-ae66-db27bf94072f",
+      "name": "Scrape Candidate Homepage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "position": [
+        1520,
+        -208
+      ],
+      "credentials": {
+        "jinaAiApi": {
+          "id": "REPLACE_ME",
+          "name": "jinaAiApi (select your own)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const wanted = Math.max(1, Math.min(20, parseInt($('Workflow Config').first().json.company_count || '5', 10)));\nconst all = $input.all().map(i => i.json);\nconst ok = all.filter(x => x.site_ok);\nif (!ok.length) {\n  const why = all.map(x => x.company_url + ': ' + (x.site_note || 'rejected')).join(' | ');\n  throw new Error('No candidate passed website verification. ' + why.slice(0, 1500));\n}\nconst picked = ok.slice(0, wanted);\nreturn picked.map((x, i) => ({ json: { company_index: i + 1, total_companies: picked.length, discovered_name: x.discovered_name, company_url: x.company_url, city: x.city, automation_fit_reason: x.automation_fit_reason, site_note: x.site_note }, pairedItem: { item: 0 } }));\n"
+      },
+      "id": "f88758be-9021-49ca-a8e9-02264e065673",
+      "name": "Select Verified Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Workflow Config').first().json.telegram_chat_id }}",
+        "text": "=📋 Lead-Prüfung {{ $('Validate AI Output').first().json.company_index }} / {{ $('Validate AI Output').first().json.total_companies }}\n{{ $('Validate AI Output').first().json.company_name }}\n{{ $('Validate AI Output').first().json.company_url }}\n\nE-Mail: {{ $('Validate AI Output').first().json.email }}\nTelefon: {{ $('Validate AI Output').first().json.phone }}\n\nBetreff A: {{ $('Validate AI Output').first().json.subject_A }}\nBetreff B: {{ $('Validate AI Output').first().json.subject_B }}\n\nFormular öffnen:\n{{ $execution.resumeFormUrl }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a09ef59e-3376-4cad-8735-a5b8421eb12b",
+      "name": "Notify Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3328,
+        304
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "telegramApi (select your own)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "CREATE TABLE IF NOT EXISTS public.rejected_sites (domain text NOT NULL, industry text NOT NULL DEFAULT '', company_name text, reason text, rejected_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (domain, industry));\nALTER TABLE public.rejected_sites ENABLE ROW LEVEL SECURITY;\nALTER TABLE public.leads ADD COLUMN IF NOT EXISTS email_version text;",
+        "options": {}
+      },
+      "id": "b8f8c2b6-209a-4a2b-ba70-dbec43544f8f",
+      "name": "Ensure Tables",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "alwaysOutputData": true,
+      "position": [
+        1104,
+        112
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const industry = String($('Workflow Config').first().json.industry || '').trim().toLowerCase();\nconst q = s => \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\nconst hosts = new Set();\nfor (const it of $input.all()) {\n  const m = String(it.json.company_url || '').match(/^https?:\\/\\/([^\\/?#\\s]+)/i);\n  if (!m) continue;\n  const h = m[1].toLowerCase().replace(/^www\\./, '').replace(/:\\d+$/, '');\n  if (/^[a-z0-9.-]+$/.test(h)) hosts.add(h);\n}\nconst list = [...hosts].map(q).join(',') || \"''\";\nconst query = `SELECT host, 'already saved' AS source FROM (SELECT lower(regexp_replace(regexp_replace(company_url,'^https?://(www[.])?',''),'[/?#:].*','')) AS host FROM public.leads WHERE company_url IS NOT NULL) t WHERE host IN (${list}) UNION ALL SELECT domain AS host, 'rejected earlier' AS source FROM public.rejected_sites WHERE domain IN (${list}) AND industry = ${q(industry)}`;\nreturn [{ json: { query, hosts: [...hosts] } }];\n"
+      },
+      "id": "4d19b230-a2ac-40d0-b23c-f08d20c550c0",
+      "name": "Build Dedupe Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "id": "02429f7f-6de6-404c-8e4e-64e450a5254c",
+      "name": "Check Known Sites",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "alwaysOutputData": true,
+      "position": [
+        1504,
+        -64
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const cands = $('Validate & Normalize Candidates').all().map(i => i.json);\nconst known = new Map();\nfor (const it of $input.all()) {\n  const h = String((it.json || {}).host || '').toLowerCase();\n  if (h) known.set(h, (it.json || {}).source || 'known');\n}\nconst keep = [], dropped = [];\nfor (const c of cands) {\n  const host = String(c.company_url).replace(/^https?:\\/\\//i, '').replace(/^www\\./i, '').split(/[\\/?#:]/)[0].toLowerCase();\n  if (known.has(host)) dropped.push(host + ' (' + known.get(host) + ')'); else keep.push(c);\n}\nif (!keep.length) throw new Error('All candidates are already known: ' + dropped.join(', ') + '. Run again or change region/focus.');\nreturn keep.map((c, i) => ({ json: { ...c, company_index: i + 1, candidates_total: keep.length, dedupe_dropped: dropped.length }, pairedItem: { item: 0 } }));\n"
+      },
+      "id": "567f17b2-013f-47d8-9e81-b983f81272dc",
+      "name": "Filter Known Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1712,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const industry = String($('Workflow Config').first().json.industry || '').trim().toLowerCase();\nconst q = s => \"'\" + String(s == null ? '' : s).replace(/'/g, \"''\") + \"'\";\nconst rows = [];\nfor (const it of $input.all()) {\n  const c = it.json;\n  if (c.site_ok !== false) continue;\n  if (!/not a real company|industry mismatch|parked/i.test(c.site_note || '')) continue;\n  const m = String(c.company_url || '').match(/^https?:\\/\\/([^\\/?#\\s]+)/i);\n  if (!m) continue;\n  const host = m[1].toLowerCase().replace(/^www\\./, '').replace(/:\\d+$/, '');\n  rows.push('(' + [host, c.discovered_name, industry, String(c.site_note || '').slice(0, 300)].map(q).join(',') + ')');\n}\nconst query = rows.length ? 'INSERT INTO public.rejected_sites (domain, company_name, industry, reason) VALUES ' + rows.join(',') + ' ON CONFLICT (domain, industry) DO NOTHING' : 'SELECT 1';\nreturn [{ json: { query, count: rows.length } }];\n"
+      },
+      "id": "bb48b4d5-b340-4885-92bf-1f7a7e3f0dae",
+      "name": "Build Rejected Insert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "id": "0d12bd47-88ec-47d0-9bbf-06e84a72bf66",
+      "name": "Save Rejected Sites",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "alwaysOutputData": true,
+      "position": [
+        2640,
+        -48
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const x = $input.first().json;\nconst industry = String($('Workflow Config').first().json.industry || '').trim().toLowerCase();\nconst q = s => \"'\" + String(s == null ? '' : s).replace(/'/g, \"''\") + \"'\";\nconst m = String(x.company_url || '').match(/^https?:\\/\\/([^\\/?#\\s]+)/i);\nif (!m) return [{ json: { query: 'SELECT 1' } }];\nconst host = m[1].toLowerCase().replace(/^www\\./, '').replace(/:\\d+$/, '');\nconst query = 'INSERT INTO public.rejected_sites (domain, company_name, industry, reason) VALUES (' + [host, x.company_name, industry, 'Skipped in manual review'].map(q).join(',') + ') ON CONFLICT (domain, industry) DO NOTHING';\nreturn [{ json: { query } }];\n"
+      },
+      "id": "e33c4baf-786f-4374-b16e-81ef6c438758",
+      "name": "Build Skip Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3904,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "id": "fddb1f62-9beb-46d2-9374-4560231e4781",
+      "name": "Save Skipped Site",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "alwaysOutputData": true,
+      "position": [
+        4112,
+        560
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "postgres (select your own)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Config": {
+      "main": [
+        [
+          {
+            "node": "Prepare Region Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Region Form": {
+      "main": [
+        [
+          {
+            "node": "Select Region (Step 2)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Contact & Impressum Links": {
+      "main": [
+        [
+          {
+            "node": "Scrape Subpages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Subpages": {
+      "main": [
+        [
+          {
+            "node": "Combine Company Pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Company Pages": {
+      "main": [
+        [
+          {
+            "node": "Agent 1: Extract, Strategize & Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 1: Extract, Strategize & Draft": {
+      "main": [
+        [
+          {
+            "node": "Validate AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Model (Extractor)1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 1: Extract, Strategize & Draft",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate AI Output": {
+      "main": [
+        [
+          {
+            "node": "Needs Review?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Review?": {
+      "main": [
+        [
+          {
+            "node": "Notify Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Apply Review Edits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review & Edit Lead (n8n Form)": {
+      "main": [
+        [
+          {
+            "node": "Apply Review Edits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Review Edits": {
+      "main": [
+        [
+          {
+            "node": "Is Skip?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Skip?": {
+      "main": [
+        [
+          {
+            "node": "Build Skip Record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Existing Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Scrape Homepage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Lead": {
+      "main": [
+        [
+          {
+            "node": "Prepare Supabase Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Supabase Record": {
+      "main": [
+        [
+          {
+            "node": "Postgres Upsert (company_url unique)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Upsert (company_url unique)": {
+      "main": [
+        [
+          {
+            "node": "Can Send Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Can Send Email?": {
+      "main": [
+        [
+          {
+            "node": "Send Email (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "Mark Lead as Sent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Lead as Sent": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Search Result": {
+      "main": [
+        [
+          {
+            "node": "Validate & Normalize Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 0a: Ollama (OpenAI API)": {
+      "main": [
+        [
+          {
+            "node": "Parse Ollama Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Agent 0: Groq (Web Search)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Ollama Result": {
+      "main": [
+        [
+          {
+            "node": "Validate & Normalize Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Agent 0: Groq (Web Search)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 0: Groq (Web Search)": {
+      "main": [
+        [
+          {
+            "node": "Parse Groq Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Groq Result": {
+      "main": [
+        [
+          {
+            "node": "Validate & Normalize Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 0c: OpenRouter :online (OpenAI API)": {
+      "main": [
+        [
+          {
+            "node": "Parse Search Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Search Prompt": {
+      "main": [
+        [
+          {
+            "node": "Agent 0: Groq (Web Search)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Industry Check (Groq)": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Industry Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Candidate Homepage": {
+      "main": [
+        [
+          {
+            "node": "Check Website Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Website Exists": {
+      "main": [
+        [
+          {
+            "node": "AI Industry Check (Groq)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Industry Check": {
+      "main": [
+        [
+          {
+            "node": "Select Verified Candidates",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Rejected Insert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Verified Candidates": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Homepage": {
+      "main": [
+        [
+          {
+            "node": "Find Contact & Impressum Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Telegram": {
+      "main": [
+        [
+          {
+            "node": "Review & Edit Lead (n8n Form)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Region (Step 2)": {
+      "main": [
+        [
+          {
+            "node": "Ensure Tables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Tables": {
+      "main": [
+        [
+          {
+            "node": "Build Search Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate & Normalize Candidates": {
+      "main": [
+        [
+          {
+            "node": "Build Dedupe Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Dedupe Query": {
+      "main": [
+        [
+          {
+            "node": "Check Known Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Known Sites": {
+      "main": [
+        [
+          {
+            "node": "Filter Known Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Known Candidates": {
+      "main": [
+        [
+          {
+            "node": "Scrape Candidate Homepage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Rejected Insert": {
+      "main": [
+        [
+          {
+            "node": "Save Rejected Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Skip Record": {
+      "main": [
+        [
+          {
+            "node": "Save Skipped Site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Skipped Site": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "meta": {},
+  "nodeGroups": []
+}
