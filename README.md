@@ -5,8 +5,7 @@ fit the industry, extracts contact data from the Impressum/contact pages, drafts
 lets a human review and edit everything in a form, stores the result in Supabase/PostgreSQL and (optionally) sends
 the e-mail via SMTP.
 
-> **Status: prototype / portfolio project.** Run it in **Test mode** only until you have read the
-> [legal note](#legal-note-read-this-before-sending-anything).
+> **Status: Portfolio Project (Human-in-the-Loop B2B Research).** Run in **Test mode** until you have reviewed the [legal note](#legal-note-read-this-before-sending-anything).
 
 ## What it does
 
